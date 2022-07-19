@@ -66,6 +66,7 @@ function load_mailbox(mailbox) {
   .then(emails => {
       console.log(emails);
       emails.forEach(email => {
+
         const newemailDiv = document.createElement('div')
         newemailDiv.className = "mail";
         if (email.read) {
@@ -111,26 +112,29 @@ function view_email(email_id) {
       const body = document.createElement('div');
       const archive_button = document.createElement('button');
       const unarchive_button = document.createElement('button');
+      const reply_button = document.createElement('button');
+
+      // add class name to elements
       archive_button.className = 'btn btn-outline-secondary';
       unarchive_button.className = 'btn btn-outline-secondary';
+      reply_button.className = "btn btn-outline-primary";
 
-
+      reply_button.style.marginRight = "7px";
+      
+      // elements inner HTML
       from.innerHTML = `<strong>From: </strong>${email.sender}`;
       to.innerHTML = `<strong>To: </strong>${email.recipients}`;
       subject.innerHTML = `<strong>Subject: </strong>${email.subject}`;
       timestamp.innerHTML = `<strong>Timestamp: </strong>${email.timestamp}`;
       body.innerHTML = email.body;
-      // archive and unarchive buttons
+      reply_button.innerHTML = "Reply";
       archive_button.innerHTML = "Archive";
       unarchive_button.innerHTML = "Unarchive";
-
-      // append elements to DOM
-      document.querySelector('#view-email').append(from);
-      document.querySelector('#view-email').append(to);
-      document.querySelector('#view-email').append(subject);
-      document.querySelector('#view-email').append(timestamp);
-      document.querySelector('#view-email').append(body);
       
+      // append elements to DOM
+      document.querySelector('#view-email').append(from,to,subject,timestamp,body,reply_button);
+      
+
       // check if email is archived or not
       if (email.archived) {
         document.querySelector('#view-email').append(unarchive_button);
@@ -142,6 +146,25 @@ function view_email(email_id) {
         archive_button.addEventListener('click', () => load_mailbox('inbox'));
       }
 
+      document.querySelector('#view-email').append(document.createElement('hr'));
+      // when click on reply button take user to compose_email
+      reply_button.addEventListener('click', function() {
+        compose_email();
+
+        // Pre-fill the composition form  
+        document.querySelector('#compose-recipients').value = email.sender;
+        document.querySelector('#compose-subject').value = `Re: ${email.subject}` ;
+
+        // Check if subject line already begins with Re:
+        const str = email.subject
+        if (str.slice(0, 3) === 'Re:') {
+          document.querySelector('#compose-subject').value = email.subject ;
+          document.querySelector('#compose-body').value = `On ${email.timestamp} wrote: ${str.substr(3)}`;
+
+        } else {
+          document.querySelector('#compose-subject').value = `Re: ${email.subject}`;
+          document.querySelector('#compose-body').value = `On ${email.timestamp} wrote: ${email.subject}`;
+        }
 
   });
 
@@ -151,11 +174,10 @@ function view_email(email_id) {
       read: true
     })
   })
+})
 }
 
-
 function archive_email(email,email_id) {
-
   if (!email.archived) {
 
     fetch(`/emails/${email_id}`, {
@@ -164,7 +186,6 @@ function archive_email(email,email_id) {
           archived: true
       })
     })
-  
   } else {
 
     fetch(`/emails/${email_id}`, {
@@ -173,14 +194,5 @@ function archive_email(email,email_id) {
           archived: false
       })
     })
-
   }
-
-
-
 }
-
-
-
-
-

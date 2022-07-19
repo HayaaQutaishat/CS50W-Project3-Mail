@@ -1,0 +1,31 @@
+textarea {
+    min-height: 400px;
+}
+
+body {
+
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.mail {
+    border-style: solid;
+    border-width: thin;
+}
+
+
+
+#recipients {
+    padding-right: 70px;
+}
+
+#subject {
+    padding-right: 70px;
+    
+}
+
+#timestamp {
+    padding-right: 70px;
+    float: right;
+    
+}
+

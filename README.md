@@ -12,11 +12,11 @@ Design a front-end for an email client that makes API calls to send and receive 
 ### Project Requirements :
 
 - Send Mail: When a user submits the email composition form, add JavaScript code to actually send the email.
-You’ll likely want to make a POST request to /emails, passing in values for recipients, subject, and body.
-Once the email has been sent, load the user’s sent mailbox.
+  - You’ll likely want to make a POST request to /emails, passing in values for recipients, subject, and body.
+  - Once the email has been sent, load the user’s sent mailbox.
 
 - Mailbox: When a user visits their Inbox, Sent mailbox, or Archive, load the appropriate mailbox.
-You’ll likely want to make a GET request to /emails/<mailbox> to request the emails for a particular mailbox.
+  - You’ll likely want to make a GET request to /emails/<mailbox> to request the emails for a particular mailbox.
 When a mailbox is visited, the application should first query the API for the latest emails in that mailbox.
 When a mailbox is visited, the name of the mailbox should appear at the top of the page (this part is done for you).
 Each email should then be rendered in its own box (e.g. as a <div> with a border) that displays who the email is from, what the subject line is, and the timestamp of the email.

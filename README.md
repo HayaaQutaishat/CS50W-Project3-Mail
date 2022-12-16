@@ -1,6 +1,5 @@
-# CS50W-Project3-Mail
+# Email Client Frontend Application
 
-## CS50 Web - Programming with Python and JavaScript. 
 
 ### Project purpose :
 
